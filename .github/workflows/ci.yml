@@ -19,7 +19,7 @@ jobs:
       - run: npx nx-cloud start-ci-run
       - run: |
          npx nx run shop-e2e:e2e:ci
-      - run: ls dist/cypress/apps
+      - run: ls dist/cypress/apps/shop-e2e
         if: ${{ always() }}
       - name: Stop all running agents for this CI run
         if: ${{ always() }}
@@ -31,4 +31,5 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - run: npm ci
+      - run: mkdir -p dist/cypress/apps/shop-e2e && touch dist/cypress/apps/shop-e2e/from-agent.txt
       - run: npx nx-cloud start-agent
