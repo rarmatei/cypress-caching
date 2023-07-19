@@ -1,4 +1,4 @@
-name: NxCloud Instance Dogfooding
+name: Run CI
 
 on:
   pull_request:
@@ -11,10 +11,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.5.0'
+      - run: npm ci
       - run: npx nx-cloud start-ci-run
       - run: |
          npx nx run shop-e2e:e2e:ci
-      - run: ls dist/cypress/apps
+      - run: ls dist/cypress/apps/shop-e2e
+        if: ${{ always() }}
       - name: Stop all running agents for this CI run
         if: ${{ always() }}
         run: npx nx-cloud stop-all-agents
@@ -24,4 +30,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - run: npm ci
+      - run: mkdir -p dist/cypress/apps/shop-e2e && touch dist/cypress/apps/shop-e2e/from-agent.txt
       - run: npx nx-cloud start-agent
