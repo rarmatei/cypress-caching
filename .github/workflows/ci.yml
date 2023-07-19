@@ -11,6 +11,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - run: npm ci
       - run: npx nx-cloud start-ci-run
       - run: |
          npx nx run shop-e2e:e2e:ci
@@ -24,4 +25,5 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - run: npm ci
       - run: npx nx-cloud start-agent
